@@ -21,6 +21,7 @@ jobs:
       uses: docker://node:21.7-alpine3.18
       run: |
         echo "PWD: $PWD"
+        sleep 100 
         echo "HOME: $HOME"
 
     - name: Display outputs
