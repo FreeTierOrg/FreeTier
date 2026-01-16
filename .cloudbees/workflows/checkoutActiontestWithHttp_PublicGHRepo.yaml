@@ -4,30 +4,22 @@ name: Test automation caller test workflow
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-    - '**'
+
 jobs:
   build:
     steps:
-    - name: checkout
-      uses: cloudbees-io/checkout/.cloudbees/testing # v2
-      id: checkout
-      with:
-        fetch-depth: "0"
-        repository: https://github.com/cbp-qa-automation/qa-test-hello-world.git
+      - name: checkout
+        uses: https://github.com/cloudbees-io/checkout@v2
+        id: checkout
+        with:
+          fetch-depth: "0"
+          repository: https://github.com/cbp-qa-automation/qa-test-hello-world.git
 
-    - name: Print Env
-      uses: docker://node:21.7-alpine3.18
-      run: |
-        echo "PWD: $PWD"
-        sleep 100 
-        echo "HOME: $HOME"
-
-    - name: Display outputs
-      uses: docker://golang:1.20.3-alpine3.17
-      shell: sh
-      run: |
-        echo Repository URL = ${{ steps.checkout.outputs.repository-url }}
-        echo Commit ID = ${{ steps.checkout.outputs.commit }}
-        echo Ref = ${{ steps.checkout.outputs.ref }}    
+      - name: Display Checkout Outputs
+        uses: docker://golang:1.20.3-alpine3.17
+        shell: sh
+        run: |
+          sleep 180      
+          echo Repository URL = ${{ steps.checkout.outputs.repository-url }}
+          echo Commit ID = ${{ steps.checkout.outputs.commit }}
+          echo Ref = ${{ steps.checkout.outputs.ref }}
