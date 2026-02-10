@@ -1,0 +1,60 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: My workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Job-A:
+    steps:
+      - name: checkout
+        uses: https://github.com/cloudbees-io/checkout@v2
+        id: checkout
+        with:
+          fetch-depth: "0"
+          repository: https://bitbucket.saas-preprod.beescloud.com/scm/test-bbdc-unify/test-bbdc-unify.git
+
+      - name: Display Checkout Outputs
+        uses: docker://golang:1.20.3-alpine3.17
+        shell: sh
+        run: |
+          sleep 180
+          echo Repository URL = ${{ steps.checkout.outputs.repository-url }}
+          echo Commit ID = ${{ steps.checkout.outputs.commit }}
+          echo Ref = ${{ steps.checkout.outputs.ref }}
+  Job-B:
+    steps:
+    - name: checkout
+      uses: https://github.com/cloudbees-io/checkout@v2
+      id: checkout
+      with:
+        fetch-depth: "0"
+        repository: https://testaccess2-admin@bitbucket.org/testaccess2/testcbp2.git
+
+    - name: Display Checkout Outputs
+      uses: docker://golang:1.20.3-alpine3.17
+      shell: sh
+      run: |
+        sleep 180
+        echo Repository URL = ${{ steps.checkout.outputs.repository-url }}
+        echo Commit ID = ${{ steps.checkout.outputs.commit }}
+        echo Ref = ${{ steps.checkout.outputs.ref }}    
+  Job-C:
+    steps:
+    - name: checkout
+      uses: https://github.com/cloudbees-io/checkout@v2
+      id: checkout
+      with:
+        fetch-depth: "0"
+        repository: https://github.com/cbp-qa-automation/qa-test-hello-world.git
+         
+
+    - name: Display Checkout Outputs
+      uses: docker://golang:1.20.3-alpine3.17
+      shell: sh
+      run: |
+        sleep 180      
+        echo Repository URL = ${{ steps.checkout.outputs.repository-url }}
+        echo Commit ID = ${{ steps.checkout.outputs.commit }}
+        echo Ref = ${{ steps.checkout.outputs.ref }}    
